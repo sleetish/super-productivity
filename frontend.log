@@ -1,0 +1,124 @@
+
+> superProductivity@17.1.6 startFrontend
+> npm run env && ng serve
+
+
+> superProductivity@17.1.6 env
+> node ./tools/load-env.js
+
+⚠️  No environment variables found
+✅ Generated /app/src/app/config/env.generated.ts
+❯ Building...
+One or more browsers which are configured in the project's Browserslist configuration fall outside Angular's browser support for this version.
+Unsupported browsers:
+chrome 107
+✔ Building...
+Initial chunk files | Names                         |  Raw size
+main.js             | main                          |   1.57 MB |
+chunk-4MJGNRUG.js   | -                             |   1.04 MB |
+chunk-MUN5MBKQ.js   | -                             | 741.17 kB |
+chunk-W3QUPUZU.js   | -                             | 439.55 kB |
+chunk-YTLRCKCW.js   | -                             | 408.90 kB |
+chunk-GTP5LYPE.js   | -                             | 338.79 kB |
+styles.css          | styles                        | 299.77 kB |
+chunk-ASMKZDCA.js   | -                             | 237.54 kB |
+chunk-GTEJXZ5N.js   | -                             | 172.90 kB |
+chunk-NW3PIXOL.js   | -                             | 142.51 kB |
+chunk-3QFG6VQZ.js   | -                             | 126.80 kB |
+chunk-KLRGTNP5.js   | -                             | 119.27 kB |
+chunk-7DXRIESR.js   | -                             |  79.19 kB |
+chunk-6M2OCV3O.js   | -                             |  72.80 kB |
+chunk-WAM6VOMZ.js   | -                             |  71.67 kB |
+chunk-LSU5JSYA.js   | -                             |  67.96 kB |
+chunk-7VK4JG3I.js   | -                             |  65.17 kB |
+chunk-2VKUO6ZS.js   | -                             |  52.56 kB |
+chunk-RRWZWIBM.js   | -                             |  33.62 kB |
+chunk-QQRNB7U2.js   | -                             |  32.15 kB |
+chunk-UHMNW22N.js   | -                             |  30.59 kB |
+chunk-WVDGANE4.js   | -                             |  28.39 kB |
+chunk-7TL7NSUU.js   | -                             |  26.83 kB |
+chunk-IZR3YZL5.js   | -                             |  21.75 kB |
+chunk-Z4CMPM72.js   | -                             |  20.53 kB |
+chunk-JHMBQKUU.js   | -                             |  18.71 kB |
+chunk-77NDPDGX.js   | -                             |  18.28 kB |
+chunk-RGHHT4Z6.js   | -                             |  16.74 kB |
+chunk-AUOYBOKU.js   | -                             |  16.38 kB |
+chunk-QK4A7LFD.js   | -                             |  14.82 kB |
+chunk-BMQU2CLX.js   | -                             |  13.78 kB |
+chunk-Z7NEVTKS.js   | -                             |  13.20 kB |
+chunk-MMSNDML2.js   | -                             |  12.41 kB |
+chunk-KDMMV5Q6.js   | -                             |  12.33 kB |
+chunk-VESTRVNZ.js   | -                             |  11.76 kB |
+chunk-3J5ITOFW.js   | -                             |  11.64 kB |
+chunk-NWW6IFIJ.js   | -                             |  11.34 kB |
+chunk-Y3LXP2CL.js   | -                             |  11.13 kB |
+chunk-UX3B3MOX.js   | -                             |  10.87 kB |
+chunk-3ERYYPG6.js   | -                             |   9.98 kB |
+chunk-EVC3IBQF.js   | -                             |   9.55 kB |
+chunk-SBO3VL3Y.js   | -                             |   9.08 kB |
+chunk-TTJC2AV5.js   | -                             |   8.50 kB |
+chunk-KZTUGVRW.js   | -                             |   8.21 kB |
+chunk-MHGKBCDY.js   | -                             |   7.92 kB |
+chunk-TAJ7NWSC.js   | -                             |   7.89 kB |
+chunk-MTPVW5R3.js   | -                             |   7.65 kB |
+chunk-DQWWX5PK.js   | -                             |   7.29 kB |
+chunk-H5HWCXFR.js   | -                             |   6.99 kB |
+chunk-GS3FGK5S.js   | -                             |   6.62 kB |
+chunk-TGSBU7T3.js   | -                             |   5.93 kB |
+chunk-2JB4LXRL.js   | -                             |   5.39 kB |
+chunk-WQZ7WFOL.js   | -                             |   4.93 kB |
+chunk-SSLMIDA3.js   | -                             |   4.64 kB |
+chunk-TEKHRIH7.js   | -                             |   4.25 kB |
+chunk-Q73W7XHL.js   | -                             |   3.97 kB |
+chunk-EA3D5G4O.js   | -                             |   3.75 kB |
+chunk-JDVBOFDB.js   | -                             |   3.75 kB |
+chunk-EXNY67WH.js   | -                             |   3.31 kB |
+chunk-NBFNFF5X.js   | -                             |   3.03 kB |
+chunk-3RM5LL7D.js   | -                             |   2.92 kB |
+chunk-S5WMVYWC.js   | -                             |   2.90 kB |
+chunk-FNHSPVYQ.js   | -                             |   2.87 kB |
+chunk-4L62CJC2.js   | -                             |   2.83 kB |
+chunk-GVJLUC3D.js   | -                             |   2.45 kB |
+chunk-2X4ZYVRQ.js   | -                             |   2.25 kB |
+chunk-BZCP7ZGX.js   | -                             |   2.14 kB |
+chunk-LDPTDB37.js   | -                             |   1.94 kB |
+chunk-WEBOYYZU.js   | -                             |   1.88 kB |
+chunk-M5GVNR6Z.js   | -                             |   1.70 kB |
+chunk-LTNM2PV4.js   | -                             |   1.54 kB |
+chunk-VLRDA7YX.js   | -                             |   1.52 kB |
+chunk-DGSXOCWU.js   | -                             |   1.42 kB |
+chunk-4ZAER47D.js   | -                             |   1.40 kB |
+chunk-7PEJ5IPQ.js   | -                             |   1.38 kB |
+chunk-3U3ZML36.js   | -                             |   1.38 kB |
+chunk-WJV2YRWM.js   | -                             |   1.27 kB |
+chunk-SSEWFWGD.js   | -                             | 516 bytes |
+polyfills.js        | polyfills                     | 467 bytes |
+
+                    | Initial total                 |   6.60 MB
+
+Lazy chunk files    | Names                         |  Raw size
+chunk-CFK7BZQU.js   | config-page-component         | 156.35 kB |
+chunk-IRICZAWU.js   | daily-summary-component       | 142.90 kB |
+chunk-ATYSRFKD.js   | -                             |  92.80 kB |
+chunk-YI62Q4UY.js   | material-icons-const          |  85.04 kB |
+chunk-VJC3IMRQ.js   | metric-page-component         |  54.46 kB |
+chunk-NSHODIGU.js   | boards-component              |  52.32 kB |
+chunk-BNB6GTGC.js   | -                             |  40.87 kB |
+chunk-NSDFUR5R.js   | schedule-component            |  31.33 kB |
+chunk-FINBHYIU.js   | worklog-component             |  29.10 kB |
+worker-5LAULJX6.js  | reminder-worker               |  29.01 kB |
+chunk-ZPH5YZL5.js   | scheduled-list-page-component |  27.56 kB |
+chunk-QZBXUVM3.js   | -                             |  27.30 kB |
+chunk-R5YQTU7Q.js   | habit-page-component          |  23.06 kB |
+chunk-G46X4BO3.js   | planner-component             |  19.98 kB |
+chunk-OQ4SZKRX.js   | quick-history-component       |  15.31 kB |
+...and 14 more lazy chunks files. Use "--verbose" to show all the files.
+
+Application bundle generation complete. [28.386 seconds] - 2026-02-12T20:43:44.514Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+One or more browsers which are configured in the project's Browserslist configuration fall outside Angular's browser support for this version.
+Unsupported browsers:
+chrome 107
+  ➜  Local:   http://localhost:4200/
