@@ -254,10 +254,7 @@ export class TakeABreakService {
       const msg = this._createMessage(timeWithoutBreak, cfg.takeABreak);
       this._notifyService.notifyDesktop({
         tag: 'TAKE_A_BREAK',
-        // Todo: check if applicable
-        ...({
-          renotify: true,
-        } as any),
+        renotify: true,
         title: T.GCF.TAKE_A_BREAK.NOTIFICATION_TITLE,
         body: msg,
       });
