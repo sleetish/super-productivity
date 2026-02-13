@@ -8,6 +8,7 @@ const DEFAULT_CONFIG = {
   maxSubtasks: 8,
   requestTimeoutMs: 30000,
   includeParentNotes: true,
+  apiKey: 'nokeyneeded'
 };
 
 let currentTask = null;
