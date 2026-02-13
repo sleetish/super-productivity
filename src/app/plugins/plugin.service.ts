@@ -860,8 +860,18 @@ export class PluginService implements OnDestroy {
         );
       }
 
-      const manifestText = new TextDecoder().decode(manifestBytes);
+      let manifestText = new TextDecoder().decode(manifestBytes);
       const manifest: PluginManifest = JSON.parse(manifestText);
+
+      // Compatibility fallback: if manifest does not declare jsonSchemaCfg,
+      // but a root config-schema.json exists in uploaded ZIP, use it.
+      if (!manifest.jsonSchemaCfg && extractedFiles['config-schema.json']) {
+        manifest.jsonSchemaCfg = 'config-schema.json';
+        manifestText = JSON.stringify(manifest);
+        PluginLog.log(
+          `Plugin ${manifest.id} missing jsonSchemaCfg, using fallback: config-schema.json`,
+        );
+      }
 
       // Validate manifest
       const manifestValidation = validatePluginManifest(manifest);
@@ -931,7 +941,21 @@ export class PluginService implements OnDestroy {
       // Extract JSON config schema if specified in manifest
       let configSchemas: Record<string, string> | undefined;
       if (manifest.jsonSchemaCfg) {
-        const schemaBytes = extractedFiles[manifest.jsonSchemaCfg];
+        const declaredSchemaPath = manifest.jsonSchemaCfg;
+        let schemaPath = declaredSchemaPath;
+        let schemaBytes = extractedFiles[schemaPath];
+
+        // Compatibility fallback: if declared schema file is missing, try root config-schema.json
+        if (!schemaBytes && extractedFiles['config-schema.json']) {
+          schemaPath = 'config-schema.json';
+          schemaBytes = extractedFiles[schemaPath];
+          manifest.jsonSchemaCfg = schemaPath;
+          manifestText = JSON.stringify(manifest);
+          PluginLog.log(
+            `Plugin ${manifest.id} schema ${declaredSchemaPath} missing, using fallback: config-schema.json`,
+          );
+        }
+
         if (schemaBytes) {
           if (schemaBytes.length > MAX_PLUGIN_MANIFEST_SIZE) {
             throw new Error(
@@ -945,7 +969,7 @@ export class PluginService implements OnDestroy {
           const schemaText = new TextDecoder().decode(schemaBytes);
           JSON.parse(schemaText);
           configSchemas = {
-            [manifest.jsonSchemaCfg]: schemaText,
+            [schemaPath]: schemaText,
           };
         } else {
           PluginLog.err(
