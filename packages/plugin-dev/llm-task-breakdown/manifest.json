@@ -1,0 +1,18 @@
+{
+  "id": "llm-task-breakdown",
+  "name": "LLM Task Breakdown",
+  "version": "1.0.0",
+  "manifestVersion": 1,
+  "minSupVersion": "14.0.0",
+  "description": "Break down the current task into subtasks using an OpenAI-compatible endpoint",
+  "author": "Super Productivity",
+  "jsonSchemaCfg": "config-schema.json",
+  "permissions": [
+    "getTasks",
+    "addTask",
+    "showSnack"
+  ],
+  "hooks": [
+    "currentTaskChange"
+  ]
+}

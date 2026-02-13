@@ -1,0 +1,79 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "LLM Task Breakdown Configuration",
+	"description": "Configuration for breaking down tasks via an OpenAI-compatible chat completions endpoint",
+	"type": "object",
+	"properties": {
+		"baseUrl": {
+			"type": "string",
+			"title": "Base URL",
+			"description": "OpenAI-compatible endpoint base URL",
+			"default": "http://10.0.0.40:1234"
+		},
+		"chatCompletionsPath": {
+			"type": "string",
+			"title": "Chat Completions Path",
+			"description": "Path appended to Base URL for chat completions",
+			"default": "/v1/chat/completions"
+		},
+		"apiKey": {
+			"type": "string",
+			"title": "API Key",
+			"description": "API key used for authentication"
+		},
+		"authHeaderName": {
+			"type": "string",
+			"title": "Auth Header Name",
+			"description": "Header used for API authentication",
+			"default": "Authorization"
+		},
+		"authScheme": {
+			"type": "string",
+			"title": "Auth Scheme",
+			"description": "Auth scheme prefix for API key (for example: Bearer)",
+			"default": "Bearer"
+		},
+		"model": {
+			"type": "string",
+			"title": "Model",
+			"description": "Model name for chat completions",
+			"default": "mistral-7b-code-16k-qlora"
+		},
+		"temperature": {
+			"type": "number",
+			"title": "Temperature",
+			"description": "Sampling temperature",
+			"minimum": 0,
+			"maximum": 2,
+			"default": 0.2
+		},
+		"maxSubtasks": {
+			"type": "integer",
+			"title": "Max Subtasks",
+			"description": "Maximum number of subtasks to create",
+			"minimum": 1,
+			"maximum": 20,
+			"default": 8
+		},
+		"requestTimeoutMs": {
+			"type": "integer",
+			"title": "Request Timeout (ms)",
+			"description": "Request timeout for endpoint call",
+			"minimum": 1000,
+			"maximum": 120000,
+			"default": 30000
+		},
+		"includeParentNotes": {
+			"type": "boolean",
+			"title": "Include Parent Notes",
+			"description": "Include current task notes as context for breakdown",
+			"default": true
+		},
+		"systemPrompt": {
+			"type": "string",
+			"title": "System Prompt Override",
+			"description": "Optional system prompt override"
+		}
+	},
+	"required": ["baseUrl", "chatCompletionsPath", "apiKey", "model"]
+}
