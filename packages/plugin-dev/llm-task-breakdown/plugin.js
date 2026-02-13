@@ -1,5 +1,5 @@
 const DEFAULT_CONFIG = {
-  baseUrl: 'http://10.0.0.40:1234',
+  baseUrl: 'http://127.0.0.1:1234',
   chatCompletionsPath: '/v1/chat/completions',
   authHeaderName: 'Authorization',
   authScheme: 'Bearer',
