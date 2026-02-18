@@ -7,7 +7,6 @@ import {
   Menu,
   MenuItemConstructorOptions,
   nativeTheme,
-  shell,
 } from 'electron';
 import { errorHandlerWithFrontendInform } from './error-handler-with-frontend-inform';
 import * as path from 'path';
@@ -25,6 +24,7 @@ import {
 import { getIsMinimizeToTray, getIsQuiting, setIsQuiting } from './shared-state';
 import { loadSimpleStoreAll } from './simple-store';
 import { SimpleStoreKey } from './shared-with-frontend/simple-store.const';
+import { openExternal } from './open-external';
 
 let mainWin: BrowserWindow;
 
@@ -274,14 +274,7 @@ export const setWasMaximizedBeforeHide = (value: boolean): void => {
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 function initWinEventListeners(app: Electron.App): void {
   const openUrlInBrowser = (url: string): void => {
-    // needed for mac; especially for jira urls we might have a host like this www.host.de//
-    const urlObj = new URL(url);
-    urlObj.pathname = urlObj.pathname.replace('//', '/');
-    const wellFormedUrl = urlObj.toString();
-    const wasOpened = shell.openExternal(wellFormedUrl);
-    if (!wasOpened) {
-      shell.openExternal(wellFormedUrl);
-    }
+    openExternal(url);
   };
 
   // open new window links in browser
