@@ -7,8 +7,8 @@ import {
   Menu,
   MenuItemConstructorOptions,
   nativeTheme,
-  shell,
 } from 'electron';
+import { openExternal } from './open-external';
 import { errorHandlerWithFrontendInform } from './error-handler-with-frontend-inform';
 import * as path from 'path';
 import { join, normalize } from 'path';
@@ -278,10 +278,7 @@ function initWinEventListeners(app: Electron.App): void {
     const urlObj = new URL(url);
     urlObj.pathname = urlObj.pathname.replace('//', '/');
     const wellFormedUrl = urlObj.toString();
-    const wasOpened = shell.openExternal(wellFormedUrl);
-    if (!wasOpened) {
-      shell.openExternal(wellFormedUrl);
-    }
+    openExternal(wellFormedUrl);
   };
 
   // open new window links in browser
