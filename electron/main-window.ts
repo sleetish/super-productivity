@@ -7,9 +7,9 @@ import {
   Menu,
   MenuItemConstructorOptions,
   nativeTheme,
-  shell,
 } from 'electron';
 import { errorHandlerWithFrontendInform } from './error-handler-with-frontend-inform';
+import { openExternalUrl } from './open-external';
 import * as path from 'path';
 import { join, normalize } from 'path';
 import { format } from 'url';
@@ -274,14 +274,7 @@ export const setWasMaximizedBeforeHide = (value: boolean): void => {
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 function initWinEventListeners(app: Electron.App): void {
   const openUrlInBrowser = (url: string): void => {
-    // needed for mac; especially for jira urls we might have a host like this www.host.de//
-    const urlObj = new URL(url);
-    urlObj.pathname = urlObj.pathname.replace('//', '/');
-    const wellFormedUrl = urlObj.toString();
-    const wasOpened = shell.openExternal(wellFormedUrl);
-    if (!wasOpened) {
-      shell.openExternal(wellFormedUrl);
-    }
+    openExternalUrl(url);
   };
 
   // open new window links in browser
