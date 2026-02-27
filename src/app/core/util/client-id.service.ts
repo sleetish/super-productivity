@@ -154,8 +154,32 @@ export class ClientIdService {
   private _generateBase62(length: number): string {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let result = '';
-    for (let i = 0; i < length; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
+
+    // Get the crypto object
+    const cryptoObj = typeof window !== 'undefined' && window.crypto
+      ? window.crypto
+      : (typeof globalThis !== 'undefined' && globalThis.crypto
+          ? globalThis.crypto
+          : (globalThis as any).webcrypto);
+
+    if (cryptoObj?.getRandomValues) {
+      const randomValues = new Uint8Array(1);
+      // Limit to prevent modulo bias (256 - (256 % 62) = 248)
+      const limit = 256 - (256 % chars.length);
+
+      for (let i = 0; i < length; i++) {
+        let randomValue: number;
+        do {
+          cryptoObj.getRandomValues(randomValues);
+          randomValue = randomValues[0];
+        } while (randomValue >= limit); // Rejection sampling
+        result += chars[randomValue % chars.length];
+      }
+    } else {
+      // Fallback for environments without crypto
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
     }
     return result;
   }
