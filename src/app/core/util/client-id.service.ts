@@ -150,12 +150,28 @@ export class ClientIdService {
 
   /**
    * Generates a random base62 string of the specified length.
+   * Uses cryptographically secure random values with rejection sampling
+   * to avoid modulo bias.
    */
   private _generateBase62(length: number): string {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let result = '';
+    const randomArray = new Uint8Array(length);
+    const getCrypto = (): Crypto =>
+      typeof window !== 'undefined' ? window.crypto : globalThis.crypto;
+    const crypto = getCrypto();
+
+    crypto.getRandomValues(randomArray);
+
     for (let i = 0; i < length; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
+      let randomIndex = randomArray[i];
+      while (randomIndex >= 256 - (256 % chars.length)) {
+        const rerollArray = new Uint8Array(1);
+        crypto.getRandomValues(rerollArray);
+        randomIndex = rerollArray[0];
+      }
+
+      result += chars.charAt(randomIndex % chars.length);
     }
     return result;
   }
