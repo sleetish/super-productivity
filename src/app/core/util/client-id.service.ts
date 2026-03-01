@@ -150,13 +150,37 @@ export class ClientIdService {
 
   /**
    * Generates a random base62 string of the specified length.
+   * Uses crypto.getRandomValues with rejection sampling to ensure unbiased distribution.
    */
   private _generateBase62(length: number): string {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let result = '';
-    for (let i = 0; i < length; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
+
+    const cryptoObj =
+      (typeof window !== 'undefined' && window.crypto) ||
+      (globalThis as any).crypto ||
+      (globalThis as any).webcrypto;
+
+    if (!cryptoObj?.getRandomValues) {
+      OpLog.warn('ClientIdService._generateBase62() crypto.getRandomValues not available, falling back to Math.random()');
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
     }
+
+    const randomValues = new Uint8Array(length);
+    const maxValid = 256 - (256 % chars.length);
+
+    while (result.length < length) {
+      cryptoObj.getRandomValues(randomValues);
+      for (let i = 0; i < randomValues.length && result.length < length; i++) {
+        if (randomValues[i] < maxValid) {
+          result += chars.charAt(randomValues[i] % chars.length);
+        }
+      }
+    }
+
     return result;
   }
 }
