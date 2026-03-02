@@ -153,9 +153,33 @@ export class ClientIdService {
    */
   private _generateBase62(length: number): string {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const cryptoObj =
+      (typeof window !== 'undefined' && window.crypto) ||
+      (globalThis as any).crypto ||
+      (globalThis as any).webcrypto;
+
+    if (!cryptoObj || typeof cryptoObj.getRandomValues !== 'function') {
+      let result = '';
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    }
+
     let result = '';
-    for (let i = 0; i < length; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    const maxValid = 256 - (256 % chars.length);
+    const randomBuffer = new Uint8Array(length);
+
+    while (result.length < length) {
+      cryptoObj.getRandomValues(randomBuffer);
+      for (let i = 0; i < randomBuffer.length; i++) {
+        if (randomBuffer[i] < maxValid) {
+          result += chars.charAt(randomBuffer[i] % chars.length);
+          if (result.length === length) {
+            return result;
+          }
+        }
+      }
     }
     return result;
   }
