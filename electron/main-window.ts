@@ -23,6 +23,7 @@ import {
   showOverlayWindow,
 } from './overlay-indicator/overlay-indicator';
 import { getIsMinimizeToTray, getIsQuiting, setIsQuiting } from './shared-state';
+import { openExternalUrl } from './open-external';
 import { loadSimpleStoreAll } from './simple-store';
 import { SimpleStoreKey } from './shared-with-frontend/simple-store.const';
 
@@ -278,10 +279,7 @@ function initWinEventListeners(app: Electron.App): void {
     const urlObj = new URL(url);
     urlObj.pathname = urlObj.pathname.replace('//', '/');
     const wellFormedUrl = urlObj.toString();
-    const wasOpened = shell.openExternal(wellFormedUrl);
-    if (!wasOpened) {
-      shell.openExternal(wellFormedUrl);
-    }
+    openExternalUrl(wellFormedUrl);
   };
 
   // open new window links in browser
