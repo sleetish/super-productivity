@@ -40,6 +40,7 @@ import { LS } from '../persistence/storage-keys.const';
 import { CustomThemeService } from './custom-theme.service';
 import { Log } from '../log';
 import { LayoutService } from '../../core-ui/layout/layout.service';
+import { PluginSecurityService } from '../../plugins/plugin-security';
 
 export type DarkModeCfg = 'dark' | 'light' | 'system';
 
@@ -60,6 +61,7 @@ export class GlobalThemeService {
   private _customThemeService = inject(CustomThemeService);
   private _platformService = inject(CapacitorPlatformService);
   private _environmentInjector = inject(EnvironmentInjector);
+  private _pluginSecurity = inject(PluginSecurityService);
   private _destroyRef = inject(DestroyRef);
   private _hasInitialized = false;
   private _keyboardListenerHandles: PluginListenerHandle[] = [];
@@ -202,7 +204,9 @@ export class GlobalThemeService {
           // Register the fetched SVG as an inline icon.
           this._matIconRegistry.addSvgIconLiteral(
             iconName,
-            this._domSanitizer.bypassSecurityTrustHtml(svg),
+            this._domSanitizer.bypassSecurityTrustHtml(
+              this._pluginSecurity.sanitizeHtml(svg),
+            ),
           );
         })
         .catch((error) => {
@@ -229,7 +233,9 @@ export class GlobalThemeService {
     if (this._registeredPluginIcons.has(iconName)) return;
     this._matIconRegistry.addSvgIconLiteral(
       iconName,
-      this._domSanitizer.bypassSecurityTrustHtml(svgContent),
+      this._domSanitizer.bypassSecurityTrustHtml(
+        this._pluginSecurity.sanitizeHtml(svgContent),
+      ),
     );
     this._registeredPluginIcons.add(iconName);
   }

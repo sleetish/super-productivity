@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PluginService } from '../../plugin.service';
+import { PluginSecurityService } from '../../plugin-security';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
@@ -55,6 +56,7 @@ import { MatIcon } from '@angular/material/icon';
 export class PluginIconComponent {
   private readonly _sanitizer = inject(DomSanitizer);
   private readonly _pluginService = inject(PluginService);
+  private readonly _pluginSecurity = inject(PluginSecurityService);
 
   readonly pluginId = input.required<string>();
   readonly size = input<number>(24);
@@ -69,6 +71,8 @@ export class PluginIconComponent {
       return null;
     }
 
-    return this._sanitizer.bypassSecurityTrustHtml(iconContent);
+    return this._sanitizer.bypassSecurityTrustHtml(
+      this._pluginSecurity.sanitizeHtml(iconContent),
+    );
   });
 }
