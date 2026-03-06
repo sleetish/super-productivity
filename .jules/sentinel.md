@@ -1,0 +1,4 @@
+## 2024-05-18 - [Restrict shell.openExternal protocols]
+**Vulnerability:** Calling `shell.openExternal(url)` without validating the protocol of the URL allows arbitrary protocol execution which can lead to remote code execution (RCE) via malicious schemas (e.g. file://, javascript:, data:). Also, calling `shell.openExternal` was assumed to be synchronous, which is incorrect.
+**Learning:** Even though we filter external URLs before opening them via IPC (`openUrlInBrowser` block on `will-navigate` etc), the URL given could still point to untrusted/dangerous schemes.
+**Prevention:** Always whitelist acceptable protocols (`http:`, `https:`, `mailto:`) before calling `shell.openExternal` and await its result if handling retries or errors is necessary. This was enforced via the new `openExternalUrl` abstraction and `isValidExternalUrl` utility.
