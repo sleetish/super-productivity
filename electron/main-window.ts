@@ -25,6 +25,7 @@ import {
 import { getIsMinimizeToTray, getIsQuiting, setIsQuiting } from './shared-state';
 import { loadSimpleStoreAll } from './simple-store';
 import { SimpleStoreKey } from './shared-with-frontend/simple-store.const';
+import { openExternalUrl } from './open-external';
 
 let mainWin: BrowserWindow;
 
@@ -278,10 +279,9 @@ function initWinEventListeners(app: Electron.App): void {
     const urlObj = new URL(url);
     urlObj.pathname = urlObj.pathname.replace('//', '/');
     const wellFormedUrl = urlObj.toString();
-    const wasOpened = shell.openExternal(wellFormedUrl);
-    if (!wasOpened) {
-      shell.openExternal(wellFormedUrl);
-    }
+    openExternalUrl(wellFormedUrl).catch((err) => {
+      error(`Failed to open external url: ${wellFormedUrl}`, err);
+    });
   };
 
   // open new window links in browser
