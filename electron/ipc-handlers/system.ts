@@ -1,10 +1,13 @@
 import { app, dialog, ipcMain, shell } from 'electron';
 import { IPC } from '../shared-with-frontend/ipc-events.const';
 import { getWin } from '../main-window';
+import { openExternalUrl } from '../open-external';
 
 export const initSystemIpc = (): void => {
   ipcMain.on(IPC.OPEN_PATH, (ev, path: string) => shell.openPath(path));
-  ipcMain.on(IPC.OPEN_EXTERNAL, (ev, url: string) => shell.openExternal(url));
+  ipcMain.on(IPC.OPEN_EXTERNAL, (ev, url: string) => {
+    openExternalUrl(url);
+  });
 
   ipcMain.on(
     IPC.SHOW_EMOJI_PANEL,
