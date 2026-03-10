@@ -1,0 +1,4 @@
+## 2024-03-10 - [Remote Code Execution via `shell.openExternal` in Main Process]
+**Vulnerability:** The Electron main process previously called `shell.openExternal(url)` indiscriminately via the `IPC.OPEN_EXTERNAL` handler and `will-navigate`/`setWindowOpenHandler` without validating the URL protocol. This allows arbitrary protocol usage, such as `file://` to expose local files or `javascript://`/`vbscript://`/`smb://` which could be exploited for Remote Code Execution (RCE) or leaking NTLM hashes.
+**Learning:** In contexts with `webSecurity: false` or arbitrary input passed to IPC mechanisms, `shell.openExternal` must always be strictly validated against a whitelist of safe protocols.
+**Prevention:** Always wrap `shell.openExternal()` with a whitelist-based URL validator that strictly limits protocols to `http:`, `https:`, and `mailto:` and correctly handle the returned promise asynchronously without relying on synchronous success checks.
