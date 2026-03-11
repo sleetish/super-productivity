@@ -7,7 +7,6 @@ import {
   Menu,
   MenuItemConstructorOptions,
   nativeTheme,
-  shell,
 } from 'electron';
 import { errorHandlerWithFrontendInform } from './error-handler-with-frontend-inform';
 import * as path from 'path';
@@ -275,12 +274,21 @@ export const setWasMaximizedBeforeHide = (value: boolean): void => {
 function initWinEventListeners(app: Electron.App): void {
   const openUrlInBrowser = (url: string): void => {
     // needed for mac; especially for jira urls we might have a host like this www.host.de//
-    const urlObj = new URL(url);
-    urlObj.pathname = urlObj.pathname.replace('//', '/');
-    const wellFormedUrl = urlObj.toString();
-    const wasOpened = shell.openExternal(wellFormedUrl);
-    if (!wasOpened) {
-      shell.openExternal(wellFormedUrl);
+    try {
+      const urlObj = new URL(url);
+      urlObj.pathname = urlObj.pathname.replace('//', '/');
+      const wellFormedUrl = urlObj.toString();
+
+      // 🛡️ Security: Enforce URL validation before opening
+      import('./open-external')
+        .then(({ openExternalUrl }) => {
+          openExternalUrl(wellFormedUrl).catch((e: any) => {
+            console.error('Failed to open external URL', e);
+          });
+        })
+        .catch(console.error);
+    } catch (e) {
+      console.error('Invalid URL', e);
     }
   };
 
