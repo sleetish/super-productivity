@@ -150,12 +150,38 @@ export class ClientIdService {
 
   /**
    * Generates a random base62 string of the specified length.
+   * Uses cryptographically secure random values and rejection sampling
+   * to eliminate modulo bias for uniform distribution.
    */
   private _generateBase62(length: number): string {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let result = '';
-    for (let i = 0; i < length; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
+
+    const cryptoObj =
+      (typeof window !== 'undefined' ? window.crypto : undefined) ||
+      (globalThis as any).crypto ||
+      (globalThis as any).webcrypto;
+
+    if (cryptoObj?.getRandomValues) {
+      const randomValues = new Uint8Array(length);
+      let i = 0;
+
+      // We need to reject values >= 248 to avoid modulo bias since 62 * 4 = 248,
+      // which is the largest multiple of 62 less than 256.
+      while (i < length) {
+        cryptoObj.getRandomValues(randomValues);
+        for (let j = 0; j < length && i < length; j++) {
+          if (randomValues[j] < 248) {
+            result += chars.charAt(randomValues[j] % 62);
+            i++;
+          }
+        }
+      }
+    } else {
+      // Fallback if Web Crypto API is somehow completely unavailable
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
     }
     return result;
   }
