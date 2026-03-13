@@ -1,0 +1,4 @@
+## 2024-05-15 - Arbitrary URL Scheme Execution via shell.openExternal
+**Vulnerability:** Arbitrary URL handling with `shell.openExternal()` in the Electron main process allows execution of dangerous schemes (like `file:`, `javascript:`, `smb:`, `data:`). This could lead to local file inclusion, remote code execution (e.g. via NTLM hash theft on Windows via SMB), or XSS if not properly checked.
+**Learning:** `shell.openExternal()` implicitly trusts the protocol of the URL provided. Since the application handles external URLs, it's critical to restrict protocols explicitly rather than relying on the caller or OS to handle it safely.
+**Prevention:** All external URLs in the Electron main process must be opened via the `openExternalUrl` function in `electron/open-external.ts`, which utilizes `electron/url-validator.ts` to strictly validate protocols (`http:`, `https:`, and `mailto:` only).
