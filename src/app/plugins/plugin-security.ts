@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PluginManifest } from './plugin-api.model';
+import DOMPurify from 'dompurify';
 
 /**
  * Simplified plugin security service following KISS principles.
@@ -87,10 +88,20 @@ export class PluginSecurityService {
    * Trust the browser's built-in protections for most things.
    */
   sanitizeHtml(html: string): string {
-    // Only remove truly dangerous elements
-    return html
-      .replace(/<script[^>]*>.*?<\/script>/gis, '') // No inline scripts
-      .replace(/<iframe[^>]*>.*?<\/iframe>/gis, '') // No nested iframes
-      .replace(/javascript:/gi, '#'); // No javascript: URLs
+    return DOMPurify.sanitize(html, {
+      FORBID_TAGS: [
+        'script',
+        'iframe',
+        'object',
+        'embed',
+        'base',
+        'form',
+        'math',
+        'applet',
+        'meta',
+        'link',
+      ],
+      FORBID_ATTR: ['on*'],
+    });
   }
 }
